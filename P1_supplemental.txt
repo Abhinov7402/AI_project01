@@ -3,8 +3,9 @@ Team members:
 1. Sai Abhinov Chowdary Katragadda
 2. Nischal Dinesh
 
-QS1.1:
-For implementing DFS we use stack data structure.
+QS1.1: What data structure do you use for implementing DFS? Why?
+Answer: 
+For implementing DFS we used stack data structure.
 
 The stack data structure enables us to store the neighbour nodes which can be expanded later 
 while expanding the latest node(Last in First out) in quetsion and storing these nodes on top of previous neighbours. 
@@ -12,8 +13,9 @@ Since going to deeper nodes is our objective, stack data structure is the
 best fit for implementing depth-first search. 
 
 
-QS1.2:
-No, Pacman doesnot go to all explored squares,
+QS1.2: The Pacman board will show an overlay of the states explored, and the order in which they were explored (brighter red means earlier exploration). Is the exploration order what you would have expected? Does Pacman actually go to all the explored squares on his way to the goal?
+Answer:
+No, Pacman does not go to all explored squares,
 but follows the path to goal which is found after 
 expansion of nodes using DFS algorithm.
 
@@ -24,16 +26,18 @@ But the path chosen by Pacman may not be the shortest path always in
 most cases for a DFS. This can be expected, when testing the algorithm 
 against,various scenarios.
 
-QS2.1:
-For implementing BFS we use queue data structure.
+QS2.1: What data structure do you use for implementing BFS? Why?
+Answer:
+For implementing BFS we used queue data structure.
 
 The queue data structure enables us to store the nodes in "First in First out" format, thus when a node is explored,
- it's children are stored at the end of the queue.
+it's children are stored at the end of the queue.
 
 Thus, all the neighbour nodes are expanded first, then their children are explored.(level by level node expansion)
 
 
-QS3.1:
+QS3.1: What cost function did you implement?  Please briefly describe how your cost function is designed (what factors does it consider and how heavy of a weight has each factor considered been given?)
+Answer:
 We implemented the uniform cost function, followed by StayEastSearchAgent cost function 
 and StayWestSearchAgent cost function.
 In the uniform cost function, the path with least cost was chosen, with each step costing 1.
@@ -44,14 +48,16 @@ which penalizes pacman for being on the westside of the board.
 In the StayWestSearchAgent the cost function is defined such that the cost for stepping into a position (x,y) is (2)^x,
 which penalizes pacman for being on the eastside of the board.
 
-QS4.1:
+QS4.1: What is the difference between the nullHeuristic  and the Manhattan distance heuristic? Does nullHeuristic give the optimal solution?  Why is the Manhattan distance heuristic better?
+Answer:
 The null heuristic returns zero for every state while the manhattan heuristic returns the least number of steps to goal.
 The A* search, with the null heuristic reduces the search to Uniform Cost Search, but with the manhattan heuristic, it
 reduces the number of nodes expanded, both leading to optimal solution in both cases.
 
 The manhattan heuristic is slightly efficient, as it reduces the number of nodes being expanded.
 
-QS4.2:
+QS4.2: What happens on openMaze for the various search strategies?
+Answer:
 In an open maze,
 
 For Depth First search, the deep nodes are explored and expanded, and backtracked, thus it is very inefficient, 
@@ -66,15 +72,62 @@ or someother movement based cost function.
 For A* search with manhattan heuristic, the search is directed towards the goal by reducing unnecessary node expansions.
 
 
-QS5.1:
+QS5.1: What states representation do you choose in this problem?
+Answer:
 In this problem, we chose two states. The first state is the position of pacman (a tuple), 
-while the second is the lsit of corners(a list of tuples).
+while the second is the list of corners(a list of tuples).
+
+position of pacman: (x,y)
+list of corners to be visited: [(p1,p2), (p2,q2), ...]
  
 
-QS5.2:
+QS5.2: Briefly  explain your implementation
+Answer:
+This implementation of the Corners Problem represents each state as (position, remaining_corners), where position is Pacman’s location, and remaining_corners 
+tracks the corners yet to be visited. The getStartState method initializes Pacman’s position and all four corners, while isGoalState checks if all corners have been 
+visited. The getSuccessors function generates valid next states by considering movement in all four directions, ensuring Pacman avoids walls and updates the corners 
+list when one is reached. Each move has a uniform cost of 1. The getCostOfActions method calculates the path cost, discouraging invalid moves into walls. 
+This ensures an efficient path-finding approach for visiting all corners.
+
+QS6.1: What heuristic did you use for this corner problem?  Explain the potential strong points and weak points of your chosen heuristic.  Is your heuristic consistent?  Why?
+Answer:
+The heuristic used is the maximum Manhattan distance from Pacman’s current position to the remaining unvisited corners. 
+
+strong points:
+-It is admissible as it never overestimates the actual cost and provides a lower bound on the true path cost. 
+
+-It is also consistent since the Manhattan distance satisfies the triangle inequality.
+
+weak points:
+It ignores walls, which may lead to underestimations, and does not account for the best sequence to visit multiple corners.
 
 
-QS6.1:
+QS7.1: What heuristic did you use for this problem?  Explain the potential strong points and weak points of your chosen heuristic.  Is your heuristic consistent?  Why?
+Answer:
+The heuristic used for the FoodSearchProblem is the maximum maze distance from Pacman’s current position to any remaining food dots. 
 
+This heuristic is admissible as it does not overestimate the actual path cost, ensuring a lower bound on the true cost. 
 
-QS7.1:
+strong points:
+-It considers wall constraints by using maze distance instead of Manhattan distance, and efficiency, as it reduces node expansions by storing precomputed distances.  
+
+The heuristic is consistent since the maze distance satisfies the triangle inequality, ensuring that the estimated cost never decreases more than the actual step cost, making it suitable for A* search.
+
+The mazeDistance heuristic and the manhattanDistance heuristic were considered, for this problem, but maze distance heuristic outperformed,
+manhattan disance heuristic in terms of node expansions, since maze distance employed wall constraints which reduced node expansions 
+significantly.
+
+For the given trickySearch problem:
+- The manhattan distance heuristic required 9551 node expansions.
+- But the maze distance heuristic required only 4137 node expansions.  
+
+QS8.1: Describe your solution and explain the potential strong points and weak points of your solution.
+Answer:
+Since finding the optimal path with A* can be challenging, breadth-first search is used in ClosestDotSearchAgent to quickly find the nearest food dot. 
+BFS explores nodes level by level, ensuring the closest dot is reached in the shortest number of moves. 
+
+- The key strength of this approach is speed, as it quickly finds a path and guarantees reaching the nearest food dot. 
+
+- However, this method is not always the best because choosing the nearest dot each time can lead to a longer total path. 
+
+Still, it is a quick and fast solution when finding the perfect path takes too much time.
