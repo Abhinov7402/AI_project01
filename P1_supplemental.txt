@@ -1,23 +1,75 @@
 Answer questions marked as "QS"
+Team members: 
+1. Sai Abhinov Chowdary Katragadda
+2. Nischal Dinesh
 
 QS1.1:
+For implementing DFS we use stack data structure.
+
+The stack data structure enables us to store the neighbour nodes which can be expanded later 
+while expanding the latest node(Last in First out) in quetsion and storing these nodes on top of previous neighbours. 
+Since going to deeper nodes is our objective, stack data structure is the 
+best fit for implementing depth-first search. 
 
 
 QS1.2:
+No, Pacman doesnot go to all explored squares,
+but follows the path to goal which is found after 
+expansion of nodes using DFS algorithm.
 
+The exploration order is random, thus it is hard to expect
+as, we are not aware of which node will be chosen to expand 
+at a given time and such analysis is too complex for our perception.
+But the path chosen by Pacman may not be the shortest path always in 
+most cases for a DFS. This can be expected, when testing the algorithm 
+against,various scenarios.
 
 QS2.1:
+For implementing BFS we use queue data structure.
+
+The queue data structure enables us to store the nodes in "First in First out" format, thus when a node is explored,
+ it's children are stored at the end of the queue.
+
+Thus, all the neighbour nodes are expanded first, then their children are explored.(level by level node expansion)
 
 
 QS3.1:
+We implemented the uniform cost function, followed by StayEastSearchAgent cost function 
+and StayWestSearchAgent cost function.
+In the uniform cost function, the path with least cost was chosen, with each step costing 1.
 
+In the StayEastSearchAgent the cost function is defined such that the cost for stepping into a position (x,y) is (0.5)^x,
+which penalizes pacman for being on the westside of the board.
 
+In the StayWestSearchAgent the cost function is defined such that the cost for stepping into a position (x,y) is (2)^x,
+which penalizes pacman for being on the eastside of the board.
 
 QS4.1:
+The null heuristic returns zero for every state while the manhattan heuristic returns the least number of steps to goal.
+The A* search, with the null heuristic reduces the search to Uniform Cost Search, but with the manhattan heuristic, it
+reduces the number of nodes expanded, both leading to optimal solution in both cases.
+
+The manhattan heuristic is slightly efficient, as it reduces the number of nodes being expanded.
+
+QS4.2:
+In an open maze,
+
+For Depth First search, the deep nodes are explored and expanded, and backtracked, thus it is very inefficient, 
+and maynot follow optimal path to goal.
+
+For Breadth First Search, the nodes at depth k are expanded first and then k+1. Thus the optimal path interms of moves
+is guaranteed as the search expands from source towards goal. But a number of nodes are expanded, making it less efficient.
+
+For Uniform Cost Search, the node with lowest path cost is explored. Here the cost function can be the distance from goal
+or someother movement based cost function.
+
+For A* search with manhattan heuristic, the search is directed towards the goal by reducing unnecessary node expansions.
 
 
 QS5.1:
-
+In this problem, we chose two states. The first state is the position of pacman (a tuple), 
+while the second is the lsit of corners(a list of tuples).
+ 
 
 QS5.2:
 

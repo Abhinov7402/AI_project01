@@ -177,18 +177,18 @@ class Grid:
         if bitRepresentation:
             self._unpackBits(bitRepresentation)
 
-    def __getitem__(self, i):
+    def __getitem__(self, i):   
         return self.data[i]
 
-    def __setitem__(self, key, item):
+    def __setitem__(self, key, item):   
         self.data[key] = item
 
-    def __str__(self):
+    def __str__(self):          
         out = [[str(self.data[x][y])[0] for x in range(self.width)] for y in range(self.height)]
         out.reverse()
         return '\n'.join([''.join(x) for x in out])
 
-    def __eq__(self, other):
+    def __eq__(self, other):    
         if other == None: return False
         return self.data == other.data
 

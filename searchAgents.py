@@ -320,8 +320,9 @@ class CornersProblem(search.SearchProblem):
             is the incremental cost of expanding to that successor
         """
 
-        successors = []
-        for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+        successors = [] # list of successors initialized to empty list
+
+        for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]: # for each action in the list of actions 
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
             #   x,y = currentPosition
@@ -330,18 +331,18 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
-            position = state[0]
-            corners = state[1]
-            x, y = position
-            dx, dy = Actions.directionToVector(action)
-            nextx, nexty = int(x + dx), int(y + dy)
-            if not self.walls[nextx][nexty]:
-                nextCorners = list(corners)
-                if (nextx, nexty) in corners:
-                    nextCorners.remove((nextx, nexty))
-                successors.append((((nextx, nexty), tuple(nextCorners)), action, 1))
-        self._expanded += 1
-        return successors
+            position = state[0]  # current position of pacman in the maze (x, y) tuple 
+            corners = state[1]      # list of remaining corners to visit in the maze (x, y) tuple list 
+            x, y = position         # current position of pacman in the maze (x, y) tuple is unpacked into x and y
+            dx, dy = Actions.directionToVector(action) # dx and dy are the changes in x and y coordinates for the action
+            nextx, nexty = int(x + dx), int(y + dy)     # nextx and nexty are the new coordinates after the action is taken
+            if not self.walls[nextx][nexty]:        # if the new coordinates are not a wall  
+                nextCorners = list(corners)         # create a copy of the remaining corners list 
+                if (nextx, nexty) in corners:       # if the new coordinates are a corner 
+                    nextCorners.remove((nextx, nexty))  # remove the corner from the list of remaining corners 
+                successors.append((((nextx, nexty), tuple(nextCorners)), action, 1))    # add the new state to the list of successors 
+        self._expanded += 1                         # increment the number of expanded nodes 
+        return successors                           # return the list of successors 
         util.raiseNotDefined()
 
 
@@ -376,14 +377,14 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    position, remainingCorners = state
-    if len(remainingCorners) == 0:
-        return 0
-    else:
-        cornerDistances = []
-        for corner in remainingCorners:
-            cornerDistances.append(util.manhattanDistance(position, corner))
-        return max(cornerDistances)
+    position, remainingCorners = state  # current position of pacman and list of remaining corners to visit unpacked from the state
+    if len(remainingCorners) == 0:      # if there are no remaining corners to visit 
+        return 0                        # return 0 
+    else:                               # if there are remaining corners to visit
+        cornerDistances = []            # create an empty list to store the distances to the corners
+        for corner in remainingCorners:     # for each corner in the list of remaining corners
+            cornerDistances.append(util.manhattanDistance(position, corner))    # store the manhattan distance to the cornerDistance list
+        return max(cornerDistances)         # return the maximum distance 
     return 0
     util.raiseNotDefined()
 
@@ -478,20 +479,31 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
-    position, foodGrid = state
+    position, foodGrid = state 
     "*** YOUR CODE HERE ***"
     foodList = foodGrid.asList()
-
     if len(foodList) == 0:
         return 0
     else:
+        if 'wallCount' not in problem.heuristicInfo:
+            problem.heuristicInfo['wallCount'] = problem.walls.count()
+
         maxDistance = 0
+
+        if 'foodDistances' not in problem.heuristicInfo:
+            problem.heuristicInfo['foodDistances'] = {}
+            for food in foodList:
+                problem.heuristicInfo['foodDistances'][food] = util.manhattanDistance(position, food)
+
         for food in foodList:
-            distance = util.manhattanDistance(position, food)
-            if distance > maxDistance:
-                maxDistance = distance
+            if (position, food) in problem.heuristicInfo:
+                distance = problem.heuristicInfo[(position, food)]
+            else:
+                #distance = util.manhattanDistance(position, food)
+                distance = mazeDistance(position, food, problem.startingGameState) # using maze distance instead of manhattan distance reduced number of node expansions 
+                problem.heuristicInfo[(position, food)] = distance
+            maxDistance = max(maxDistance, distance)
         return maxDistance
-    return 0
     util.raiseNotDefined()
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -523,8 +535,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        
-        return search.aStarSearch(problem, foodHeuristic)
+        return search.bfs(problem)
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):

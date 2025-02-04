@@ -87,33 +87,33 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    # Initialize the stack
+    # To initialize the stack which acts as fringe
     stack = util.Stack()
-    # Initialize the visited set
+    # To initialize the visited set to keep track of visited states
     visited = set()
-    # Initialize the path
+    # To initialize the path to keep track of the path from the start state to the current state
     path = []
-    # Push the start state into the stack
+    # To push the start state into the stack with an empty path list as the path from the start state until the start state is empty 
     stack.push((problem.getStartState(), []))
-    # Loop until the stack is empty
+    # To loop until the stack is empty (Last In First Out) 
     while not stack.isEmpty():
-        # Pop the state and path from the stack
+        # To pop the state and path from the stack to get the current state and path
         state, path = stack.pop()
-        # Check if the state is the goal state
+        # To check if the state is the goal state so that the path can be returned 
         if problem.isGoalState(state):
             return path
-        # Check if the state is visited
+        # To check if the state is visited so that the state can be skipped
         if state in visited:
             continue
-        # Add the state to the visited set
+        # To add the state to the visited set so that the state is not visited again
         visited.add(state)
-        # Get the successors of the state
+        # To get the successors of the state 
         successors = problem.getSuccessors(state)
-        # Loop through the successors
+        # To loop through the successors 
         for successor in successors:
-            # Get the successor state, action, and cost
+            # To get the successor state, action, and cost 
             successor_state, action, cost = successor
-            # Push the successor state and path into the stack
+            # To push the successor state and path into the stack 
             stack.push((successor_state, path + [action]))
     return []
     util.raiseNotDefined()
@@ -121,33 +121,33 @@ def depthFirstSearch(problem: SearchProblem):
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    # Initialize the queue
+    # To initialize the queue which acts as fringe 
     queue = util.Queue()
-    # Initialize the visited set
+    # To initialize the visited set to keep track of visited states 
     visited = set()
-    # Initialize the path
+    # To initialize the path to keep track of the path from the start state to the current state 
     path = []
-    # Push the start state into the queue
+    # To push the start state into the queue with an empty path list as the path from the start state until the start state is empty
     queue.push((problem.getStartState(), []))
-    # Loop until the queue is empty
+    # To loop until the queue is empty (First In First Out)
     while not queue.isEmpty():
-        # Pop the state and path from the queue
+        # To pop the state and path from the queue to get the current state and path
         state, path = queue.pop()
-        # Check if the state is the goal state
+        # To check if the state is the goal state so that the path can be returned
         if problem.isGoalState(state):
             return path
-        # Check if the state is visited
+        # To check if the state is visited so that the state can be skipped
         if state in visited:
             continue
-        # Add the state to the visited set
+        # To add the state to the visited set so that the state is not visited again
         visited.add(state)
-        # Get the successors of the state
+        # To get the successors of the state 
         successors = problem.getSuccessors(state)
-        # Loop through the successors
+        # To loop through the successors 
         for successor in successors:
-            # Get the successor state, action, and cost
+            # To get the successor state, action, and cost 
             successor_state, action, cost = successor
-            # Push the successor state and path into the queue
+            # To push the successor state and path into the queue 
             queue.push((successor_state, path + [action]))
     return []
     util.raiseNotDefined()
@@ -155,33 +155,33 @@ def breadthFirstSearch(problem: SearchProblem):
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    # Initialize the priority queue
+    # To initialize the priority queue to keep track of the states with the least total cost
     priority_queue = util.PriorityQueue()
-    # Initialize the visited set
+    # To initialize the visited set to keep track of visited states 
     visited = set()
-    # Initialize the path
+    # To initialize the path to keep track of the path from the start state to the current state 
     path = []
-    # Push the start state into the priority queue
+    # To push the start state into the priority queue with an empty path list as the path from the start state until the start state is empty
     priority_queue.push((problem.getStartState(), []), 0)
-    # Loop until the priority queue is empty
+    # To loop until the priority queue is empty 
     while not priority_queue.isEmpty():
-        # Pop the state and path from the priority queue
+        # To pop the state and path from the priority queue to get the current state and path
         state, path = priority_queue.pop()
-        # Check if the state is the goal state
+        # To check if the state is the goal state so that the path can be returned
         if problem.isGoalState(state):
             return path
-        # Check if the state is visited
+        # To check if the state is visited so that the state can be skipped 
         if state in visited:
             continue
-        # Add the state to the visited set
+        # To add the state to the visited set so that the state is not visited again 
         visited.add(state)
-        # Get the successors of the state
+        # To get the successors of the state 
         successors = problem.getSuccessors(state)
-        # Loop through the successors
+        # To loop through the successors 
         for successor in successors:
-            # Get the successor state, action, and cost
+            # To get the successor state, action, and cost 
             successor_state, action, cost = successor
-            # Push the successor state and path into the priority queue
+            # To push the successor state and path into the priority queue along with the cost of the actions 
             priority_queue.push((successor_state, path + [action]), problem.getCostOfActions(path + [action]))
     return []
     util.raiseNotDefined()
@@ -198,33 +198,33 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    # Initialize the priority queue
+    # To initialize the priority queue to keep track of the states with the lowest combined cost and heuristic
     priority_queue = util.PriorityQueue()
-    # Initialize the visited set
+    # To initialize the visited set to keep track of visited states 
     visited = set()
-    # Initialize the path
+    # To initialize the path to keep track of the path from the start state to the current state
     path = []
-    # Push the start state into the priority queue
+    # To push the start state into the priority queue with an empty path list as the path from the start state until the start state is empty
     priority_queue.push((problem.getStartState(), []), 0)
-    # Loop until the priority queue is empty
+    # To loop until the priority queue is empty 
     while not priority_queue.isEmpty():
-        # Pop the state and path from the priority queue
+        # To pop the state and path from the priority queue to get the current state and path
         state, path = priority_queue.pop()
-        # Check if the state is the goal state
+        # To check if the state is the goal state so that the path can be returned
         if problem.isGoalState(state):
             return path
-        # Check if the state is visited
+        # To check if the state is visited so that the state can be skipped
         if state in visited:
             continue
-        # Add the state to the visited set
+        # To add the state to the visited set so that the state is not visited again
         visited.add(state)
-        # Get the successors of the state
+        # To get the successors of the state 
         successors = problem.getSuccessors(state)
-        # Loop through the successors
+        # To loop through the successors 
         for successor in successors:
-            # Get the successor state, action, and cost
+            # To get the successor state, action, and cost 
             successor_state, action, cost = successor
-            # Push the successor state and path into the priority queue
+            # To push the successor state and path into the priority queue 
             priority_queue.push((successor_state, path + [action]), problem.getCostOfActions(path + [action]) + heuristic(successor_state, problem))
     return []
 
